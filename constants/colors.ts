@@ -1,0 +1,8 @@
+const COLORS = {
+  MAIN_BLUE: "#2D71B5",
+  DARK_GREY: "#707070",
+  LIGHT_GREY: "#E8E8E8",
+  MEDIUM_GREY: "#A8A8A8"
+}
+
+export default COLORS
