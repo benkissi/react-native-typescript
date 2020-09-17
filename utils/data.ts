@@ -1,4 +1,4 @@
-import {Child} from './types';
+import {Child, Schedule} from './types';
 
 const sampleChildren: Child[] = [
   {
@@ -82,4 +82,41 @@ const detailOptions = [
 
 ];
 
-export {sampleChildren, detailOptions};
+const sampleSchedules: Schedule[]  = [
+  {
+    title: '2020-09-10',
+    data: [
+      {
+        title: 'English language',
+        time: '8:00am - 10:00am',
+        subjectId: '01',
+        ongoing: false,
+      },
+      {
+        title: 'Lunch break',
+        time: '12:00pm - 1:00pm',
+        subjectId: '03',
+        ongoing: true,
+      },
+    ],
+  },
+  {
+    title: '2020-09-11',
+    data: [
+      {
+        title: 'French',
+        time: '10:00am - 12:00pm',
+        subjectId: '02',
+        ongoing: false,
+      },
+      {
+        title: 'Lunch break',
+        time: '12:00pm - 1:00pm',
+        subjectId: '03',
+        ongoing: false,
+      },
+    ],
+  },
+];
+
+export {sampleChildren, detailOptions, sampleSchedules};

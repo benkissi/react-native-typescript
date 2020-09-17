@@ -1,51 +1,50 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import React from 'react';
+import {View, Text, ViewStyle, TextStyle} from 'react-native';
 
-import HLine from './HLine'
+import HLine from './HLine';
 
-const styles = StyleSheet.create({
-  wrapper: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20
-  },
-  pic: {
-    width: 50,
-    height: 50,
-    borderRadius: 100,
-    backgroundColor: "#EDEDED",
-    marginRight: 16,
-  },
-  name: {
-    fontFamily: "Poppins-Medium",
-    fontSize: 14,
-    color: "#707070"
-  },
-  grade: {
-    fontFamily: "Poppins-Light",
-    color: "#A8A8A8",
-    fontSize: 12
-  }
-})
+const ROOT: ViewStyle = {
+  width: '100%',
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginBottom: 20,
+};
+
+const PIC: ViewStyle = {
+  width: 50,
+  height: 50,
+  borderRadius: 100,
+  backgroundColor: '#EDEDED',
+  marginRight: 16,
+};
+
+const NAME: TextStyle = {
+  fontFamily: 'Poppins-Medium',
+  fontSize: 14,
+  color: '#707070',
+};
+
+const GRADE: TextStyle = {
+  fontFamily: 'Poppins-Light',
+  color: '#A8A8A8',
+  fontSize: 12,
+};
 
 interface Props {
-  name: string,
-  grade: string
+  name: string;
+  grade: string;
 }
 
 const Child: React.FC<Props> = (props) => {
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.pic}>
-
-      </View>
+    <View style={ROOT}>
+      <View style={PIC}></View>
       <View>
-        <Text style={styles.name}>{props.name}</Text>
-        <Text style={styles.grade}>{props.grade}</Text>
+        <Text style={NAME}>{props.name}</Text>
+        <Text style={GRADE}>{props.grade}</Text>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default Child
+export default Child;

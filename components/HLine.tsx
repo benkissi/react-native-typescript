@@ -1,20 +1,18 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, ViewStyle } from 'react-native'
 
-const styles = StyleSheet.create({
-  line: {
-    backgroundColor: "#EDEDED",
+const LINE: ViewStyle = {
+  backgroundColor: "#EDEDED",
     height: 1,
     width: "100%"
-  }
-})
+}
 
 interface Props {
   color: string
 }
 
 const HLine: React.FC<Props> = ({color}) => {
-  return <View style={{ ...styles.line, backgroundColor: color }}></View>
+  return <View style={{ ...LINE, backgroundColor: color }}></View>
 }
 
 export default HLine

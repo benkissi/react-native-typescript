@@ -6,15 +6,20 @@ import ScheduleIcon from '../assets/svg/ScheduleIcon';
 
 const styles = StyleSheet.create({
   wrapper: {
+    width: "100%",
     paddingTop: 10,
     paddingRight: 20,
     justifyContent: 'center',
+    alignItems: "center",
+    
   },
   container: {
+    width: "100%",
     flexDirection: 'row',
     height: 77,
-    alignItems: 'flex-start',
     marginBottom: 2,
+    justifyContent: 'center',
+    alignItems: "center",
   },
   card: {
     flexDirection: 'row',
@@ -82,10 +87,11 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  item: {title: string; time: string; subjectId: string; ongoing: boolean};
+  item: { title: string; time: string; subjectId: string; ongoing: boolean };
+  showLabel?: boolean
 }
 
-const ScheduleItem: React.FC<Props> = ({item}) => {
+const ScheduleItem: React.FC<Props> = ({item, showLabel=true}) => {
   const [timeLabels, setTimeLabels] = useState<string[]>([]);
   const colors: {[key: string]: string} = {
     '01': '#E07373',
@@ -115,12 +121,15 @@ const ScheduleItem: React.FC<Props> = ({item}) => {
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
+        {
+          showLabel?
         <View style={styles.time__label}>
           <Text style={styles.time__label__item}>{timeLabels[0]}</Text>
           <Text style={{...styles.time__label__item, marginTop: 'auto'}}>
             {timeLabels[1]}
           </Text>
-        </View>
+        </View>: null
+        }
         <View style={styles.card}>
           <View style={styles.icon}>
             <ScheduleIcon color={colors[item.subjectId]} />

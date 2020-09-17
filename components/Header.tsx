@@ -1,34 +1,34 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, ViewStyle, TextStyle} from 'react-native';
 
-const styles = StyleSheet.create({
-  wrapper: {
-    width: '100%',
-    padding: 16,
-  },
-  title: {
-    fontFamily: 'Poppins-Bold',
-    fontSize: 30,
-    color: "#2D71B5"
-  },
-  sub: {
-    fontSize: 12,
-    fontFamily: "Poppins-Light",
-    color: "#707070",
-    opacity: 0.7
-  }
-});
+const ROOT: ViewStyle = {
+  width: '100%',
+  padding: 16,
+};
+
+const SUBTITLE: TextStyle = {
+  fontSize: 12,
+  fontFamily: 'Poppins-Light',
+  color: '#707070',
+  opacity: 0.7,
+};
+
+const TITLE: TextStyle = {
+  fontFamily: 'Poppins-Bold',
+  fontSize: 30,
+  color: '#2D71B5',
+};
 
 interface Props {
   title: string;
-  subTitle: string
+  subTitle: string;
 }
 
 const Header: React.FC<Props> = ({title, subTitle}) => {
   return (
-    <View style={styles.wrapper}>
-      <Text style={styles.sub}>{subTitle}</Text>
-      <Text style={styles.title}>{title}</Text>
+    <View style={ROOT}>
+      <Text style={SUBTITLE}>{subTitle}</Text>
+      <Text style={TITLE}>{title}</Text>
     </View>
   );
 };

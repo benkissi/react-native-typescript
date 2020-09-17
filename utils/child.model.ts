@@ -1,5 +1,3 @@
-import { Image } from "react-native-svg";
-
 class ChildModel {
   id: string;
   firstName: string;

@@ -1,8 +1,5 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
-
-import Children from '../screens/Children';
 import ChildrenNavigation from './children-navigator'
 
 import ChildrenTabIcon from '../assets/svg/ChildrenTabIcon';

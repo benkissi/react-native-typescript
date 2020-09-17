@@ -1,20 +1,27 @@
 import _ from 'lodash';
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {
   Platform,
   Alert,
-  StyleSheet,
   View,
   Text,
-  TouchableOpacity,
-  Button
+  ViewStyle,
+  TextStyle,
 } from 'react-native';
-import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar } from 'react-native-calendars';
+
+import {
+  ExpandableCalendar,
+  AgendaList,
+  CalendarProvider,
+  WeekCalendar,
+} from 'react-native-calendars';
 
 import ScheduleItem from '../components/ScheduleItem';
+import {getPastDate, getFutureDates} from '../utils/funcs';
+import {sampleSchedules as ITEMS} from '../utils/data';
+import {Schedule, Interface_ScheduleItem} from '../utils/types';
 
-const testIDs = require('../utils/testIds');
-
+import testIDs from '../utils/testIds'
 
 const today = new Date().toISOString().split('T')[0];
 const fastDate = getPastDate(3);
@@ -23,85 +30,86 @@ const dates = [fastDate, today].concat(futureDates);
 const themeColor = '#00AAAF';
 const lightThemeColor = '#EBF9F9';
 
-function getFutureDates(days) {
-  const array = [];
-  for (let index = 1; index <= days; index++) {
-    const date = new Date(Date.now() + (864e5 * index)); // 864e5 == 86400000 == 24*60*60*1000
-    const dateString = date.toISOString().split('T')[0];
-    array.push(dateString);
-  }
-  return array;
+const CALENDAR: ViewStyle = {
+  borderTopWidth: 0,
+  paddingLeft: 20,
+  paddingRight: 20,
+};
+
+const SECTION: TextStyle = {
+  backgroundColor: '#FAFAFA',
+  color: 'grey',
+  textTransform: 'capitalize',
+};
+
+const ITEM: ViewStyle = {
+  padding: 20,
+  backgroundColor: 'white',
+  borderBottomWidth: 1,
+  borderBottomColor: 'lightgrey',
+  flexDirection: 'row',
+};
+
+const EMPTYITEM: ViewStyle = {
+  paddingLeft: 20,
+  height: 52,
+  justifyContent: 'center',
+  borderBottomWidth: 1,
+  borderBottomColor: 'lightgrey',
+};
+
+const EMPTYITEM_TEXT: TextStyle = {
+  color: 'lightgrey',
+  fontSize: 14,
+};
+
+interface Props {
+  weekView?: boolean
 }
 
-function getPastDate(days) {
-  return new Date(Date.now() - (864e5 * days)).toISOString().split('T')[0];
-}
+const ExpandableCalendarScreen:React.FC<Props> = (props) => {
+  const [state, setState] = useState({});
 
-// const ITEMS = [
-//   {title: dates[0], data: [{hour: '12am', duration: '1h', title: 'First Yoga'}]},
-//   {title: dates[1], data: [{hour: '4pm', duration: '1h', title: 'Pilates ABC'}, {hour: '5pm', duration: '1h', title: 'Vinyasa Yoga'}]},
-//   {title: dates[2], data: [{hour: '1pm', duration: '1h', title: 'Ashtanga Yoga'}, {hour: '2pm', duration: '1h', title: 'Deep Streches'}, {hour: '3pm', duration: '1h', title: 'Private Yoga'}]},
-//   {title: dates[3], data: [{hour: '12am', duration: '1h', title: 'Ashtanga Yoga'}]},
-//   {title: dates[4], data: [{}]},
-//   {title: dates[5], data: [{hour: '9pm', duration: '1h', title: 'Middle Yoga'}, {hour: '10pm', duration: '1h', title: 'Ashtanga'}, {hour: '11pm', duration: '1h', title: 'TRX'}, {hour: '12pm', duration: '1h', title: 'Running Group'}]},
-//   {title: dates[6], data: [{hour: '12am', duration: '1h', title: 'Ashtanga Yoga'}]},
-//   {title: dates[7], data: [{}]},
-//   {title: dates[8], data: [{hour: '9pm', duration: '1h', title: 'Pilates Reformer'}, {hour: '10pm', duration: '1h', title: 'Ashtanga'}, {hour: '11pm', duration: '1h', title: 'TRX'}, {hour: '12pm', duration: '1h', title: 'Running Group'}]},
-//   {title: dates[9], data: [{hour: '1pm', duration: '1h', title: 'Ashtanga Yoga'}, {hour: '2pm', duration: '1h', title: 'Deep Streches'}, {hour: '3pm', duration: '1h', title: 'Private Yoga'}]},
-//   {title: dates[10], data: [{hour: '12am', duration: '1h', title: 'Last Yoga'}]}
-// ];
-
-const ITEMS = [
-  {title: '2020-09-10', data: [{
-    title: 'English language',
-    time: '8:00am - 10:00am',
-    subjectId: '01',
-    ongoing: false
-  },
-    { title: 'Lunch break', time: '12:00pm - 1:00pm', subjectId: '03', ongoing: true },]
-  },
-  {title: '2020-09-11', data: [ {title: 'French', time: '10:00am - 12:00pm', subjectId: '02', ongoing: false},
-  {title: 'Lunch break', time: '12:00pm - 1:00pm', subjectId: '03', ongoing: false}]},
-]
-
-export default class ExpandableCalendarScreen extends Component {
-
-  onDateChanged = (/* date, updateSource */) => {
+  const onDateChanged = (/* date, updateSource */) => {
     // console.warn('ExpandableCalendarScreen onDateChanged: ', date, updateSource);
     // fetch and set data for date + week ahead
-  }
+  };
 
-  onMonthChange = (/* month, updateSource */) => {
+  const onMonthChange = (/* month, updateSource */) => {
     // console.warn('ExpandableCalendarScreen onMonthChange: ', month, updateSource);
-  }
+  };
 
-  buttonPressed() {
+  const buttonPressed = () => {
     Alert.alert('show more');
-  }
+  };
 
-  itemPressed(id) {
+  const itemPressed = (id: string) => {
     Alert.alert(id);
-  }
+  };
 
-  renderEmptyItem() {
+  const renderEmptyItem = () => {
     return (
-      <View style={styles.emptyItem}>
-        <Text style={styles.emptyItemText}>No Events Planned</Text>
+      <View style={EMPTYITEM}>
+        <Text style={EMPTYITEM_TEXT}>No Events Planned</Text>
       </View>
     );
-  }
+  };
 
-  renderItem = ({item}) => {
+  const renderItem = ({item}:{item: Interface_ScheduleItem}) => {
+    
     if (_.isEmpty(item)) {
-      return this.renderEmptyItem();
+      return renderEmptyItem();
     }
 
-    return <ScheduleItem item={item}/>
-  }
+    return <ScheduleItem item={item} />;
+  };
 
-  getMarkedDates = () => {
-    const marked = {};
-    ITEMS.forEach(item => {
+  const getMarkedDates = () => {
+    const marked: {
+      [name: string]: {};
+    } = {};
+
+    ITEMS.forEach((item) => {
       // NOTE: only mark dates with data
       if (item.data && item.data.length > 0 && !_.isEmpty(item.data[0])) {
         marked[item.title] = {marked: true};
@@ -110,9 +118,9 @@ export default class ExpandableCalendarScreen extends Component {
       }
     });
     return marked;
-  }
+  };
 
-  getTheme = () => {
+  const getTheme = () => {
     const disabledColor = 'grey';
 
     return {
@@ -144,110 +152,60 @@ export default class ExpandableCalendarScreen extends Component {
       dotColor: themeColor,
       selectedDotColor: 'white',
       disabledDotColor: disabledColor,
-      dotStyle: {marginTop: -2}
+      dotStyle: {marginTop: -2},
     };
-  }
+  };
 
-  render() {
-    return (
-      <CalendarProvider
-        date={ITEMS[0].title}
-        onDateChanged={this.onDateChanged}
-        onMonthChange={this.onMonthChange}
-        showTodayButton={false}
-        disabledOpacity={0.6}
-        // theme={{
-        //   todayButtonTextColor: themeColor
-        // }}
-        // todayBottomMargin={16}
-        style={{
-          backgroundColor: "#FAFAFA",
-          borderBottomWidth: 0,
-          borderColor: 'white'
-        }}
-      >
-        {this.props.weekView ?
-          <WeekCalendar
-            testID={testIDs.weekCalendar.CONTAINER}
-            firstDay={1}
-            markedDates={this.getMarkedDates()}
-          /> :
-          <ExpandableCalendar
-            testID={testIDs.expandableCalendar.CONTAINER}
-            // horizontal={false}
-            hideArrows
-            // disablePan
-            // hideKnob
-            // initialPosition={ExpandableCalendar.positions.OPEN}
-            // calendarStyle={styles.calendar}
-            headerStyle={styles.calendar} // for horizontal only
-            // disableWeekScroll
-            // theme={this.getTheme()}
-            disableAllTouchEventsForDisabledDays
-            firstDay={1}
-            markedDates={this.getMarkedDates()} // {'2019-06-01': {marked: true}, '2019-06-02': {marked: true}, '2019-06-03': {marked: true}};
-            leftArrowImageSource={require('../assets/images/previous.png')}
-            rightArrowImageSource={require('../assets/images/next.png')}
-          />
-        }
-        
-        <AgendaList
-          sections={ITEMS}
-          extraData={this.state}
-          renderItem={this.renderItem}
-          sectionStyle={styles.section}
+  return (
+    <CalendarProvider
+      date={ITEMS[0].title}
+      onDateChanged={onDateChanged}
+      onMonthChange={onMonthChange}
+      showTodayButton={false}
+      disabledOpacity={0.6}
+      // theme={{
+      //   todayButtonTextColor: themeColor
+      // }}
+      // todayBottomMargin={16}
+      style={{
+        backgroundColor: '#FAFAFA',
+        borderBottomWidth: 0,
+        borderColor: 'white',
+      }}>
+      {props.weekView ? (
+        <WeekCalendar
+          testID={testIDs.weekCalendar.CONTAINER}
+          firstDay={1}
+          markedDates={getMarkedDates()}
         />
-      </CalendarProvider>
-    );
-  }
-}
+      ) : (
+        <ExpandableCalendar
+          testID={testIDs.expandableCalendar.CONTAINER}
+          // horizontal={false}
+          hideArrows
+          // disablePan
+          // hideKnob
+          // initialPosition={ExpandableCalendar.positions.OPEN}
+          // calendarStyle={styles.calendar}
+          headerStyle={CALENDAR} // for horizontal only
+          // disableWeekScroll
+          // theme={this.getTheme()}
+          disableAllTouchEventsForDisabledDays
+          firstDay={1}
+          markedDates={getMarkedDates()} // {'2019-06-01': {marked: true}, '2019-06-02': {marked: true}, '2019-06-03': {marked: true}};
+          leftArrowImageSource={require('../assets/images/previous.png')}
+          rightArrowImageSource={require('../assets/images/next.png')}
+        />
+      )}
 
-const styles = StyleSheet.create({
-  calendar: {
-    borderTopWidth: 0,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  section: {
-    backgroundColor: '#FAFAFA',
-    color: 'grey',
-    textTransform: 'capitalize'
-  },
-  item: {
-    padding: 20,
-    backgroundColor: 'white',
-    borderBottomWidth: 1,
-    borderBottomColor: 'lightgrey',
-    flexDirection: 'row'
-  },
-  itemHourText: {
-    color: 'black'
-  },
-  itemDurationText: {
-    color: 'grey',
-    fontSize: 12,
-    marginTop: 4,
-    marginLeft: 4
-  },
-  itemTitleText: {
-    color: 'black',
-    marginLeft: 16,
-    fontWeight: 'bold',
-    fontSize: 16
-  },
-  itemButtonContainer: {
-    flex: 1,
-    alignItems: 'flex-end'
-  },
-  emptyItem: {
-    paddingLeft: 20,
-    height: 52,
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: 'lightgrey'
-  },
-  emptyItemText: {
-    color: 'lightgrey',
-    fontSize: 14
-  }
-});
+      <AgendaList
+        sections={ITEMS}
+        extraData={state}
+        renderItem={renderItem}
+        sectionStyle={SECTION}
+      />
+    </CalendarProvider>
+  );
+};
+
+export default ExpandableCalendarScreen;

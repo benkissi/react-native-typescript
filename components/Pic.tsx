@@ -1,22 +1,16 @@
 import React from 'react';
 
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Image, ImageStyle} from 'react-native';
 
 import COLORS from '../constants/colors';
 
-const styles = StyleSheet.create({
-  wrapper: {
-    width: 70,
-    height: 70,
-    borderRadius: 200,
-    backgroundColor: COLORS.LIGHT_GREY,
-    overflow: 'hidden',
-  },
-  image: {
-    width: 200,
-    height: 200,
-  },
-});
+const ROOT: ImageStyle = {
+  width: 70,
+  height: 70,
+  borderRadius: 200,
+  backgroundColor: COLORS.LIGHT_GREY,
+  overflow: 'hidden',
+}
 
 interface Props {
   styling?: {};
@@ -26,10 +20,10 @@ interface Props {
 const Pic: React.FC<Props> = ({styling, image}) => {
   return (
     <View>
-      <View style={{...styles.wrapper, ...styling}}>
+      <View style={{...ROOT, ...styling}}>
         <Image
           resizeMethod="resize"
-          style={{...styles.wrapper, ...styling }}
+          style={{...ROOT, ...styling }}
           source={{
             uri: image,
           }}

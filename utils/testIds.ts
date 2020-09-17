@@ -1,4 +1,4 @@
-module.exports = {
+const testIDs = {
   menu: {
     CONTAINER: 'menu',
     CALENDARS: 'calendars_btn',
@@ -22,3 +22,5 @@ module.exports = {
   expandableCalendar: {CONTAINER: 'expandableCalendar'},
   weekCalendar: {CONTAINER: 'weekCalendar'}
 };
+
+export default testIDs
